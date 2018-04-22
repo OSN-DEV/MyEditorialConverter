@@ -47,10 +47,10 @@ namespace MyEditorialConverter {
 
             FlowDocument doc = this.cDestText.Document;
             TextRange range = new TextRange(doc.ContentStart, doc.ContentEnd);
-            this.cDestText.Tag = string.Join("\n", lines);
+            this.cDestText.Tag = string.Join("\r\n", lines);
             range.Text = this.cDestText.Tag.ToString();
             var regex = new Regex("（.*?）");
-            var matches = regex.Matches(this.cDestText.Tag.ToString().Replace("\n",""));
+            var matches = regex.Matches(this.cDestText.Tag.ToString().Replace("\r\n", ""));
             var hilightColor = new SolidColorBrush(Color.FromArgb(255, 249,205, 173));
             foreach (Match match in matches) {
                 var p1 = GetPoint(this.cDestText.Document.ContentStart, match.Index);
