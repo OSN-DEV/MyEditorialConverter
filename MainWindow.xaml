@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyEditorialConverter"
         mc:Ignorable="d"
-        Title="社説コンバーター" Height="400" Width="600" FontFamily="Meiryo" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+        Title="社説コンバーター" Height="400" Width="600" FontFamily="Meiryo" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" KeyDown="Window_KeyDown">
 
     <Window.Resources>
         <!-- http://dev.eyewhale.com/archives/824 -->

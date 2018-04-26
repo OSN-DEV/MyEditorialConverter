@@ -31,6 +31,17 @@ namespace MyEditorialConverter {
             System.Reflection.Assembly assenbley = System.Reflection.Assembly.GetExecutingAssembly();
             this.Title = "社説コンバーター(" + assenbley.GetName().Version + ")";
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Key == Key.C) {
+                if ((Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.None &&
+                    (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None) {
+                    this.cSrcTitle.Text = "";
+                    this.cDestTitle.Text = "";
+                    this.cSrcText.Text = "";
+                }
+            }
+        }
         #endregion
 
         #region Control Event
@@ -52,6 +63,19 @@ namespace MyEditorialConverter {
             var regex = new Regex("（.*?）");
             var matches = regex.Matches(this.cDestText.Tag.ToString().Replace("\r\n", ""));
             var hilightColor = new SolidColorBrush(Color.FromArgb(255, 249,205, 173));
+            foreach (Match match in matches) {
+                var p1 = GetPoint(this.cDestText.Document.ContentStart, match.Index);
+                var p2 = GetPoint(this.cDestText.Document.ContentStart, match.Index + match.Length);
+
+                this.cDestText.Selection.Select(p1, p2);
+                TextRange tr = new TextRange(p1, p2);
+                tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Blue);
+                tr.ApplyPropertyValue(TextElement.BackgroundProperty, hilightColor);
+            }
+
+            regex = new Regex("[一二三四五六七八九〇十百千万]");
+            matches = regex.Matches(this.cDestText.Tag.ToString().Replace("\r\n", ""));
+            hilightColor = new SolidColorBrush(Color.FromArgb(255, 250, 119, 109));
             foreach (Match match in matches) {
                 var p1 = GetPoint(this.cDestText.Document.ContentStart, match.Index);
                 var p2 = GetPoint(this.cDestText.Document.ContentStart, match.Index + match.Length);
@@ -108,5 +132,7 @@ namespace MyEditorialConverter {
             return Regex.Replace(text, "[0-9]", (Match match) => ((char)(match.Value[0] - '0' + '０')).ToString());
         }
         #endregion
+
+
     }
 }
